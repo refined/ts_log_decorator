@@ -18,7 +18,6 @@ export function logAnything(options: LogOptions) {
         targetMethod: (this: This, ...args: Args) => R,
         context: ClassMethodDecoratorContext<This>
     ): (this: This, ...args: Args) => R {
-        debugger;
         const methodName = String(context.name);
         return function (this: This, ...args: Args): R {
             const constructorName = String((this as any)?.constructor?.name);
