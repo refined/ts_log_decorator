@@ -1,0 +1,20 @@
+{
+  "name": "log-decorator",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "tsc -p tsconfig.json && node --max-old-space-size=16000 src/index.js && exit 1",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tsc": "^2.0.4",
+    "typescript": "^5.3.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "mocha": "^11.4.0"
+  }
+}
