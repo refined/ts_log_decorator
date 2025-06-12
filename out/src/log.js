@@ -63,12 +63,12 @@ function logAnything(options) {
                 if (options.log_exception) {
                     const endTime = Date.now();
                     const executionTime = endTime - startTime;
-                    const meta = error; // TODO better error meta
                     console.error(message || `Exception invoked in ${getFunctionName(constructorName, methodName)}`, {
                         execution_time: executionTime,
                         class: constructorName,
                         method: methodName,
-                        ...meta
+                        message: error.message,
+                        stack: error.stack,
                     });
                 }
                 throw error;
@@ -83,13 +83,14 @@ function createMetaObject(argNames, args, arrSize) {
     return Object.fromEntries(argNames.flatMap((name, i) => mapArg(args[i], name ?? i.toString(), arrSize)));
 }
 function mapArg(arg, name, arrSize) {
+    const trimmedName = name.trim();
     if (isArray(arg)) {
         return [
-            [name + LENGTH_SUFFIX, arg.length],
-            [name, arg.slice(0, arrSize)]
+            [trimmedName + LENGTH_SUFFIX, arg.length],
+            [trimmedName, arg.slice(0, arrSize)]
         ];
     }
-    return [[name, arg]];
+    return [[trimmedName, arg]];
 }
 function wrapObjArray(obj, arrSize) {
     return createMetaObject(Object.keys(obj), Object.values(obj), arrSize);

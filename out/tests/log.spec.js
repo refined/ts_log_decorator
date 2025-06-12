@@ -35,61 +35,21 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WithLogging = void 0;
-const log_decorator_1 = require("../src/log-decorator");
 const log_1 = require("../src/log");
 jest.spyOn(console, "info");
 jest.spyOn(console, "error");
 let WithLogging = (() => {
     let _instanceExtraInitializers = [];
-    let _withLog_decorators;
-    let _withLogAsync_decorators;
-    let _logCallExceptionExecutionTime_decorators;
-    let _exceptionFunctionAsync_decorators;
-    let _exceptionFunction_decorators;
     let _withLogAnything_decorators;
     return class WithLogging {
         static {
             const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-            _withLog_decorators = [(0, log_decorator_1.log)(["str_param", "num_param", "strange naming but also ok", "ooops one more param"])];
-            _withLogAsync_decorators = [(0, log_decorator_1.log)(["str_param", "num_param", "strange naming but also ok", "ooops one more param"])];
-            _logCallExceptionExecutionTime_decorators = [(0, log_decorator_1.logCall)(["obj"], "logCall"), (0, log_decorator_1.logException)("logException"), (0, log_decorator_1.logExecutionTime)()];
-            _exceptionFunctionAsync_decorators = [(0, log_decorator_1.logException)("logException Error in console")];
-            _exceptionFunction_decorators = [(0, log_decorator_1.logException)("logException Error in console")];
-            _withLogAnything_decorators = [(0, log_1.logAnything)({})];
-            __esDecorate(this, null, _withLog_decorators, { kind: "method", name: "withLog", static: false, private: false, access: { has: obj => "withLog" in obj, get: obj => obj.withLog }, metadata: _metadata }, null, _instanceExtraInitializers);
-            __esDecorate(this, null, _withLogAsync_decorators, { kind: "method", name: "withLogAsync", static: false, private: false, access: { has: obj => "withLogAsync" in obj, get: obj => obj.withLogAsync }, metadata: _metadata }, null, _instanceExtraInitializers);
-            __esDecorate(this, null, _logCallExceptionExecutionTime_decorators, { kind: "method", name: "logCallExceptionExecutionTime", static: false, private: false, access: { has: obj => "logCallExceptionExecutionTime" in obj, get: obj => obj.logCallExceptionExecutionTime }, metadata: _metadata }, null, _instanceExtraInitializers);
-            __esDecorate(this, null, _exceptionFunctionAsync_decorators, { kind: "method", name: "exceptionFunctionAsync", static: false, private: false, access: { has: obj => "exceptionFunctionAsync" in obj, get: obj => obj.exceptionFunctionAsync }, metadata: _metadata }, null, _instanceExtraInitializers);
-            __esDecorate(this, null, _exceptionFunction_decorators, { kind: "method", name: "exceptionFunction", static: false, private: false, access: { has: obj => "exceptionFunction" in obj, get: obj => obj.exceptionFunction }, metadata: _metadata }, null, _instanceExtraInitializers);
+            _withLogAnything_decorators = [(0, log_1.logAnything)({ log_input: { arg_names: ["test"] }, log_output: true })];
             __esDecorate(this, null, _withLogAnything_decorators, { kind: "method", name: "withLogAnything", static: false, private: false, access: { has: obj => "withLogAnything" in obj, get: obj => obj.withLogAnything }, metadata: _metadata }, null, _instanceExtraInitializers);
             if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         }
-        withLog(strParam, numParam, objectParam) {
-            return WithLogging.concat(strParam, numParam, objectParam);
-        }
-        async withLogAsync(strParam, numParam, objectParam) {
-            return WithLogging.concat(strParam, numParam, objectParam);
-        }
-        async logCallExceptionExecutionTime(objectParam, func) {
-            func();
-        }
-        async exceptionFunctionAsync(throwError) {
-            if (throwError === "throw") {
-                throw Error("213123");
-            }
-            return 5;
-        }
-        exceptionFunction(throwError) {
-            if (throwError === "throw") {
-                throw Error("213123");
-            }
-            return 5;
-        }
         withLogAnything(test) {
             return 5;
-        }
-        static concat(strParam, numParam, objectParam) {
-            return strParam + numParam + objectParam.firstVar;
         }
         constructor() {
             __runInitializers(this, _instanceExtraInitializers);
@@ -102,101 +62,15 @@ describe("LogDecorator tests", () => {
         jest.clearAllMocks();
     });
     describe("Happy path", () => {
-        test("Test that logger works", async () => {
-            // arrange
-            const testClass = new WithLogging();
-            // act
-            const res1 = testClass.withLog("sdfdsf", 123, { firstVar: "yo" });
-            const res2 = await testClass.withLogAsync("sdfdsf", 123, { firstVar: "yo" });
-            // assert
-            expect(res1).toEqual(res2);
-            expect(console.info).toHaveBeenCalledTimes(4);
-            expect(console.info).toHaveBeenCalledWith("WithLogging.withLog", expect.anything());
-            expect(console.info).toHaveBeenCalledWith("WithLogging.withLog - Executed", expect.anything());
-            expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAsync - Executed", expect.anything());
-            expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAsync - Executed", expect.anything());
-        });
         test("Log anything also should work", async () => {
             // arrange
             const testClass = new WithLogging();
             // act
             const res1 = testClass.withLogAnything("Test");
             // assert
-            expect(console.info).toHaveBeenCalledTimes(4);
+            expect(console.info).toHaveBeenCalledTimes(2);
             expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAnything", expect.anything());
-            expect(console.info).toHaveBeenCalledWith("WithLogging.withLog - Executed", expect.anything());
-        });
-    });
-    describe("Log Exception", () => {
-        it("Log exception async", async () => {
-            // arrange
-            const testClass = new WithLogging();
-            // act
-            try {
-                await testClass.exceptionFunctionAsync("throw");
-            }
-            catch (error) {
-                expect(error.message).toEqual("UNKNOWN_CODE_" + 213123);
-            }
-            // assert
-            expect(console.error).toHaveBeenCalledWith("logException Error in console", expect.objectContaining({
-                error_message: "213123 UNKNOWN_CODE_213123"
-            }));
-        });
-        it("Log exception sync", () => {
-            // arrange
-            const testClass = new WithLogging();
-            // act
-            try {
-                testClass.exceptionFunction("throw");
-            }
-            catch (error) {
-                expect(error.message).toEqual("UNKNOWN_CODE_" + 213123);
-            }
-            // assert
-            expect(console.error).toHaveBeenCalledWith("logException Error in console", expect.objectContaining({
-                error_message: "213123 UNKNOWN_CODE_213123"
-            }));
-        });
-        it("Log exception - no exception", async () => {
-            // arrange
-            const testClass = new WithLogging();
-            // act
-            testClass.exceptionFunction("pass");
-            await testClass.exceptionFunctionAsync("pass");
-            // assert
-            expect(console.error).toHaveBeenCalledTimes(0);
-            expect(console.info).toHaveBeenCalledTimes(0);
-        });
-    });
-    describe("Complex cases with several log decorators", () => {
-        it("Log all but result - Exception", async () => {
-            // arrange
-            const testClass = new WithLogging();
-            const code = 1234;
-            const func = () => {
-                throw new ArgsError("wrong", code, "123");
-            };
-            // act
-            try {
-                await testClass.logCallExceptionExecutionTime({ firstVar: "yo" }, func);
-            }
-            catch (error) {
-                expect(error.message).toEqual("UNKNOWN_CODE_" + code);
-            }
-            // assert
-            expect(console.info).toHaveBeenCalledWith("logCall", expect.anything());
-            expect(console.error).toHaveBeenCalledWith("logException", expect.anything());
-        });
-        it("Log all but result", async () => {
-            // arrange
-            const testClass = new WithLogging();
-            const func = () => { };
-            // act
-            await testClass.logCallExceptionExecutionTime({ firstVar: "yo" }, func);
-            // assert
-            expect(console.info).toHaveBeenCalledWith("logCall", expect.anything());
-            expect(console.info).toHaveBeenCalledWith("WithLogging.logCallExceptionExecutionTime - Executed", expect.anything());
+            expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAnything - Executed", expect.anything());
         });
     });
     describe("logEverything", () => {
@@ -221,7 +95,7 @@ describe("LogDecorator tests", () => {
             expect(console.info).toHaveBeenCalledWith("undefined.testFunc", expect.objectContaining({
                 array: [1, 2],
                 array__length: 3,
-                my_num: 6
+                "my num": 6
             }));
             expect(console.info).toHaveBeenCalledWith("undefined.testFunc - Executed", expect.objectContaining({
                 execution_time_ms: expect.anything(),

@@ -1,4 +1,3 @@
-
 export interface LogOptions {
     message?: string;
     max_arr_len?: number;
@@ -80,14 +79,14 @@ export function logAnything(options: LogOptions) {
                     const endTime = Date.now();
                     const executionTime = endTime - startTime;
 
-                    const meta = error; // TODO better error meta
                     console.error(
                         message || `Exception invoked in ${getFunctionName(constructorName, methodName)}`,
                         {
                             execution_time: executionTime,
                             class: constructorName,
                             method: methodName,
-                            ...meta
+                            message: error.message,
+                            stack: error.stack,
                         }
                     );
                 }
@@ -105,13 +104,14 @@ function createMetaObject<Args extends any[]>(argNames: string[], args: Args, ar
 }
 
 function mapArg(arg: any, name: string, arrSize: number): Array<[string, any]> {
+    const trimmedName = name.trim();
     if (isArray(arg)) {
         return [
-            [name + LENGTH_SUFFIX, arg.length],
-            [name, arg.slice(0, arrSize)]
+            [trimmedName + LENGTH_SUFFIX, arg.length],
+            [trimmedName, arg.slice(0, arrSize)]
         ];
     }
-    return [[name, arg]];
+    return [[trimmedName, arg]];
 }
 
 export function wrapObjArray<T extends object>(obj: T, arrSize: number) {
