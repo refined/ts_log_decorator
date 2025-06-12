@@ -1,11 +1,12 @@
 {
   "name": "log-decorator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "start": "tsc -p tsconfig.json && node --max-old-space-size=16000 src/index.js && exit 1",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "reinstall": "npm install && npm run build && npm install --package-lock-only"
   },
   "keywords": [],
   "author": "",
