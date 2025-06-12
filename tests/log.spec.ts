@@ -4,7 +4,7 @@ import { logAnything } from "../src/log";
 jest.spyOn(console, "info");
 jest.spyOn(console, "error");
 
-class WithLogging {
+export class WithLogging {
     @log(["str_param", "num_param", "strange naming but also ok", "ooops one more param"])
     public withLog(strParam: string, numParam: number, objectParam: SampleInterface): string {
         return WithLogging.concat(strParam, numParam, objectParam);
@@ -41,6 +41,12 @@ class WithLogging {
         return 5;
     }
 
+
+    @logAnything({})
+    public withLogAnything(test: string): number {
+        return 5;
+    }
+
     private static concat(strParam: string, numParam: number, objectParam: SampleInterface): string {
         return strParam + numParam + objectParam.firstVar;
     }
@@ -65,6 +71,17 @@ describe("LogDecorator tests", () => {
             expect(console.info).toHaveBeenCalledWith("WithLogging.withLog - Executed", expect.anything());
             expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAsync - Executed", expect.anything());
             expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAsync - Executed", expect.anything());
+        });
+
+        test("Log anything also should work", async () => {
+            // arrange
+            const testClass = new WithLogging();
+            // act
+            const res1 = testClass.withLogAnything("Test");
+            // assert
+            expect(console.info).toHaveBeenCalledTimes(4);
+            expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAnything", expect.anything());
+            expect(console.info).toHaveBeenCalledWith("WithLogging.withLog - Executed", expect.anything());
         });
     });
 

@@ -1,76 +1,102 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _, done = false;
+    for (var i = decorators.length - 1; i >= 0; i--) {
+        var context = {};
+        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+        if (kind === "accessor") {
+            if (result === void 0) continue;
+            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+            if (_ = accept(result.get)) descriptor.get = _;
+            if (_ = accept(result.set)) descriptor.set = _;
+            if (_ = accept(result.init)) initializers.unshift(_);
+        }
+        else if (_ = accept(result)) {
+            if (kind === "field") initializers.unshift(_);
+            else descriptor[key] = _;
+        }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WithLogging = void 0;
 const log_decorator_1 = require("../src/log-decorator");
 const log_1 = require("../src/log");
 jest.spyOn(console, "info");
 jest.spyOn(console, "error");
-class WithLogging {
-    withLog(strParam, numParam, objectParam) {
-        return WithLogging.concat(strParam, numParam, objectParam);
-    }
-    async withLogAsync(strParam, numParam, objectParam) {
-        return WithLogging.concat(strParam, numParam, objectParam);
-    }
-    async logCallExceptionExecutionTime(objectParam, func) {
-        func();
-    }
-    async exceptionFunctionAsync(throwError) {
-        if (throwError === "throw") {
-            throw Error("213123");
+let WithLogging = (() => {
+    let _instanceExtraInitializers = [];
+    let _withLog_decorators;
+    let _withLogAsync_decorators;
+    let _logCallExceptionExecutionTime_decorators;
+    let _exceptionFunctionAsync_decorators;
+    let _exceptionFunction_decorators;
+    let _withLogAnything_decorators;
+    return class WithLogging {
+        static {
+            const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
+            _withLog_decorators = [(0, log_decorator_1.log)(["str_param", "num_param", "strange naming but also ok", "ooops one more param"])];
+            _withLogAsync_decorators = [(0, log_decorator_1.log)(["str_param", "num_param", "strange naming but also ok", "ooops one more param"])];
+            _logCallExceptionExecutionTime_decorators = [(0, log_decorator_1.logCall)(["obj"], "logCall"), (0, log_decorator_1.logException)("logException"), (0, log_decorator_1.logExecutionTime)()];
+            _exceptionFunctionAsync_decorators = [(0, log_decorator_1.logException)("logException Error in console")];
+            _exceptionFunction_decorators = [(0, log_decorator_1.logException)("logException Error in console")];
+            _withLogAnything_decorators = [(0, log_1.logAnything)({})];
+            __esDecorate(this, null, _withLog_decorators, { kind: "method", name: "withLog", static: false, private: false, access: { has: obj => "withLog" in obj, get: obj => obj.withLog }, metadata: _metadata }, null, _instanceExtraInitializers);
+            __esDecorate(this, null, _withLogAsync_decorators, { kind: "method", name: "withLogAsync", static: false, private: false, access: { has: obj => "withLogAsync" in obj, get: obj => obj.withLogAsync }, metadata: _metadata }, null, _instanceExtraInitializers);
+            __esDecorate(this, null, _logCallExceptionExecutionTime_decorators, { kind: "method", name: "logCallExceptionExecutionTime", static: false, private: false, access: { has: obj => "logCallExceptionExecutionTime" in obj, get: obj => obj.logCallExceptionExecutionTime }, metadata: _metadata }, null, _instanceExtraInitializers);
+            __esDecorate(this, null, _exceptionFunctionAsync_decorators, { kind: "method", name: "exceptionFunctionAsync", static: false, private: false, access: { has: obj => "exceptionFunctionAsync" in obj, get: obj => obj.exceptionFunctionAsync }, metadata: _metadata }, null, _instanceExtraInitializers);
+            __esDecorate(this, null, _exceptionFunction_decorators, { kind: "method", name: "exceptionFunction", static: false, private: false, access: { has: obj => "exceptionFunction" in obj, get: obj => obj.exceptionFunction }, metadata: _metadata }, null, _instanceExtraInitializers);
+            __esDecorate(this, null, _withLogAnything_decorators, { kind: "method", name: "withLogAnything", static: false, private: false, access: { has: obj => "withLogAnything" in obj, get: obj => obj.withLogAnything }, metadata: _metadata }, null, _instanceExtraInitializers);
+            if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         }
-        return 5;
-    }
-    exceptionFunction(throwError) {
-        if (throwError === "throw") {
-            throw Error("213123");
+        withLog(strParam, numParam, objectParam) {
+            return WithLogging.concat(strParam, numParam, objectParam);
         }
-        return 5;
-    }
-    static concat(strParam, numParam, objectParam) {
-        return strParam + numParam + objectParam.firstVar;
-    }
-}
-__decorate([
-    (0, log_decorator_1.log)(["str_param", "num_param", "strange naming but also ok", "ooops one more param"]),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Object]),
-    __metadata("design:returntype", String)
-], WithLogging.prototype, "withLog", null);
-__decorate([
-    (0, log_decorator_1.log)(["str_param", "num_param", "strange naming but also ok", "ooops one more param"]),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Object]),
-    __metadata("design:returntype", Promise)
-], WithLogging.prototype, "withLogAsync", null);
-__decorate([
-    (0, log_decorator_1.logCall)(["obj"], "logCall"),
-    (0, log_decorator_1.logException)("logException"),
-    (0, log_decorator_1.logExecutionTime)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Function]),
-    __metadata("design:returntype", Promise)
-], WithLogging.prototype, "logCallExceptionExecutionTime", null);
-__decorate([
-    (0, log_decorator_1.logException)("logException Error in console"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], WithLogging.prototype, "exceptionFunctionAsync", null);
-__decorate([
-    (0, log_decorator_1.logException)("logException Error in console"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Number)
-], WithLogging.prototype, "exceptionFunction", null);
+        async withLogAsync(strParam, numParam, objectParam) {
+            return WithLogging.concat(strParam, numParam, objectParam);
+        }
+        async logCallExceptionExecutionTime(objectParam, func) {
+            func();
+        }
+        async exceptionFunctionAsync(throwError) {
+            if (throwError === "throw") {
+                throw Error("213123");
+            }
+            return 5;
+        }
+        exceptionFunction(throwError) {
+            if (throwError === "throw") {
+                throw Error("213123");
+            }
+            return 5;
+        }
+        withLogAnything(test) {
+            return 5;
+        }
+        static concat(strParam, numParam, objectParam) {
+            return strParam + numParam + objectParam.firstVar;
+        }
+        constructor() {
+            __runInitializers(this, _instanceExtraInitializers);
+        }
+    };
+})();
+exports.WithLogging = WithLogging;
 describe("LogDecorator tests", () => {
     afterEach(() => {
         jest.clearAllMocks();
@@ -89,6 +115,16 @@ describe("LogDecorator tests", () => {
             expect(console.info).toHaveBeenCalledWith("WithLogging.withLog - Executed", expect.anything());
             expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAsync - Executed", expect.anything());
             expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAsync - Executed", expect.anything());
+        });
+        test("Log anything also should work", async () => {
+            // arrange
+            const testClass = new WithLogging();
+            // act
+            const res1 = testClass.withLogAnything("Test");
+            // assert
+            expect(console.info).toHaveBeenCalledTimes(4);
+            expect(console.info).toHaveBeenCalledWith("WithLogging.withLogAnything", expect.anything());
+            expect(console.info).toHaveBeenCalledWith("WithLogging.withLog - Executed", expect.anything());
         });
     });
     describe("Log Exception", () => {

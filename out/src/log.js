@@ -6,7 +6,6 @@ const ARRAY_MAX_LENGTH = 10;
 const LENGTH_SUFFIX = "__length";
 function logAnything(options) {
     return function (targetMethod, context) {
-        debugger;
         const methodName = String(context.name);
         return function (...args) {
             const constructorName = String(this?.constructor?.name);
