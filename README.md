@@ -1,7 +1,8 @@
 # log-decorator
 
-A lightweight TypeScript library providing easy-to-use logging decorators for your classes and methods.  
+A lightweight TypeScript library providing easy-to-use logging decorators for your methods.  
 Make your code more compact and gain extended logging abilities with minimal effort.
+Can log inputs, outputs, execution time and more.
 
 ## Features
 
@@ -13,16 +14,10 @@ Make your code more compact and gain extended logging abilities with minimal eff
 ## Installation
 
 ```sh
-npm install log-decorator
+npm install method-log-decorator
 ```
 
 ## Usage
-
-> **Note:**  
-> The `logAnything` decorator is a low-level utility.  
-> **It is recommended to use the higher-level wrappers** (`log`, `logCall`, `logException`, `logExecutionTime`) from `log-decorator.ts` for most use cases.
-
----
 
 ### Argument Names Are Mandatory
 

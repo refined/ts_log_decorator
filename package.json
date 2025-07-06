@@ -1,15 +1,17 @@
 {
-  "name": "log-decorator",
-  "version": "1.0.2",
-  "description": "",
+  "name": "method-log-decorator",
+  "version": "1.0.3",
+  "description": "A lightweight TypeScript library providing easy-to-use logging decorators.",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
   "scripts": {
     "start": "tsc -p tsconfig.json && node --max-old-space-size=16000 src/index.js && exit 1",
     "test": "jest",
     "build": "tsc",
     "reinstall": "npm install && npm run build && npm install --package-lock-only"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["typescript", "decorator", "logging", "logger", "log"],
+  "author": "Fedor Novikov",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
